@@ -13,29 +13,46 @@ get ('/') do
   erb(:index)
 end
 
-get ('/book') do
+get ('/books') do
+  @books = Book.all
+  erb(:books)
+end
+
+get ('/books/new') do
+  erb(:new_book)
+end
+
+post ('/books') do
+  title = params[:book_title]
+  book = Book.new({:title => title, :id => nil})
+  book.save()
+  redirect to ('/books')
+end
+
+get ('/books/:id') do
+  @book = Book.find(params[:id].to_i())
   erb(:book)
 end
 
-get ('/book_author') do
-  erb(:book_author)
-end
-
-post ('/book') do
-  title = params[:title]
-  book = Book.new(:title => title, :id => nil)
-  book.save()
-  @books = Book.all()
-  erb(:book_author)
-end
-
-post ('/book_author') do
-  name = params[:name]
-  author = Author.new(author)
-  author.save()
-  @authors = Author.all()
-  erb(:index)
-end
+# get ('/book_author') do
+#   erb(:book_author)
+# end
+#
+# post ('/book') do
+#   title = params[:title]
+#   book = Book.new(:title => title, :id => nil)
+#   book.save()
+#   @books = Book.all()
+#   erb(:book_author)
+# end
+#
+# post ('/book_author') do
+#   name = params[:name]
+#   author = Author.new(author)
+#   author.save()
+#   @authors = Author.all()
+#   erb(:index)
+# end
 
 
 # get ('/patron') do
